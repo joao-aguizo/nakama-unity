@@ -1,3 +1,6 @@
+This repository is a fork of Nakama's Unity Client(https://github.com/heroiclabs/nakama-unity). It slightly modifies its original ClientExtensions class to allow the configuration of the Client's socket. This modified client uses this version of Nakama .NET Client (https://github.com/joao-aguizo/nakama-dotnet-ext).
+
+
 Nakama Unity
 ============
 

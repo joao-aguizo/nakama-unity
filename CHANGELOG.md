@@ -5,6 +5,13 @@ The format is based on [keep a changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [2.4.1] - 2020-08-06
+### Added
+- Add extension method to ClientExtensions to allow construction of custom socket.
+
+### Changed
+- Switch original Nakama .NET Client dynamic-link library (.dll) by this Nakama .NET Client (https://github.com/joao-aguizo/nakama-dotnet-ext) release.
+
 
 ## [2.4.0] - 2020-05-04 :star:
 ### Added

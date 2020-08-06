@@ -41,5 +41,21 @@ namespace Nakama
 #endif
             return socket;
         }
+
+        /// <summary>
+        /// Build a new custom socket
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="keepAliveIntervalSec"></param>
+        /// <param name="sendTimeoutSec"></param>
+        /// <param name="maxMessageSize"></param>
+        /// <returns></returns>
+        public static ISocket NewCustomSocket(this IClient client, int keepAliveIntervalSec, int sendTimeoutSec, int maxMessageSize)
+        {
+            ISocketAdapter adapter = new WebSocketAdapter(keepAliveIntervalSec, sendTimeoutSec, maxMessageSize);
+            var socket = Socket.From(client, adapter);
+            socket.ReceivedError += Debug.LogError;
+            return socket;
+        }
     }
 }
