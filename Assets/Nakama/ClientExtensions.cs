@@ -28,33 +28,25 @@ namespace Nakama
         /// </summary>
         /// <param name="client">The client object.</param>
         /// <returns>A new socket.</returns>
-        public static ISocket NewSocket(this IClient client)
+        public static ISocket NewSocket(this IClient client, ClientSocketOptions socketOptions = null)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             ISocketAdapter adapter = new JsWebSocketAdapter();
 #else
-            ISocketAdapter adapter = new WebSocketAdapter();
+            ISocketAdapter adapter;
+            if(socketOptions != null)
+            {
+                adapter = new WebSocketAdapter(socketOptions.KeepAliveIntervalSec, socketOptions.SendTimeoutSec, socketOptions.MaxMessageSizeBytes);
+            }
+            else
+            {
+                adapter = new WebSocketAdapter();
+            }
 #endif
             var socket = Socket.From(client, adapter);
 #if UNITY_EDITOR
             socket.ReceivedError += Debug.LogError;
 #endif
-            return socket;
-        }
-
-        /// <summary>
-        /// Build a new custom socket
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="keepAliveIntervalSec"></param>
-        /// <param name="sendTimeoutSec"></param>
-        /// <param name="maxMessageSize"></param>
-        /// <returns></returns>
-        public static ISocket NewCustomSocket(this IClient client, int keepAliveIntervalSec, int sendTimeoutSec, int maxMessageSize)
-        {
-            ISocketAdapter adapter = new WebSocketAdapter(keepAliveIntervalSec, sendTimeoutSec, maxMessageSize);
-            var socket = Socket.From(client, adapter);
-            socket.ReceivedError += Debug.LogError;
             return socket;
         }
     }
